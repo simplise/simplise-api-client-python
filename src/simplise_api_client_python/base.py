@@ -5,8 +5,37 @@ This module provides a client for interacting with the Simplise API.
 
 from typing import Any
 
+import requests
+
 from simplise_api_client_python.action import Operation
 from simplise_api_client_python.type import JsonLogicRule
+
+
+class ActionLogicAPI:
+    """API client for action-logic endpoint."""
+
+    def __init__(self, client: "SimpliseClient") -> None:
+        """Initialize ActionLogicAPI with a reference to the client."""
+        self.client = client
+
+    def post(self, rule: JsonLogicRule) -> str:
+        """Execute JsonLogic rule via action-logic POST endpoint.
+
+        Args:
+            rule (JsonLogicRule): The JsonLogic rule to execute
+
+        Returns:
+            str: The result from the API
+
+        Raises:
+            requests.HTTPError: If the API request fails
+        """
+        url = f"{self.client.base_url}/action-logic"
+        headers = {"Content-Type": "application/json", "Authorization": f"Bearer {self.client.api_key}"}
+
+        response = requests.post(url, json=rule, headers=headers, timeout=30)
+        response.raise_for_status()
+        return response.json()
 
 
 class Action:
@@ -44,9 +73,14 @@ class Action:
         return self._send_request(rule, data)
 
     def _send_request(self, rule: JsonLogicRule, data: dict[str, Any] | None = None) -> dict[str, Any]:
-        """Send request to Simplise API (placeholder implementation)."""
-        # TODO: Implement actual API request
-        return {"result": "placeholder", "rule": rule, "data": data}
+        """Send request to Simplise API."""
+        # Use the new ActionLogicAPI for actual requests
+        try:
+            result = self.client.action_logic.post(rule)
+        except Exception as e:
+            # Fallback to placeholder for error handling
+            return {"result": "error", "rule": rule, "data": data, "error": str(e)}
+        return {"result": result, "rule": rule, "data": data}
 
 
 class SimpliseClient:
@@ -63,5 +97,6 @@ class SimpliseClient:
             api_key (str): The API key for authenticating with the Simplise API.
         """
         self.api_key = api_key
-        self.base_url = "https://api.simplise.com"
+        self.base_url = "https://api.usebootstrap.org"
         self.action = Action(self)
+        self.action_logic = ActionLogicAPI(self)

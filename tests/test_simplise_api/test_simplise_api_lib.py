@@ -21,5 +21,10 @@ try:
         {"decimal.add": ["10", {"input": ["value"]}, {"decimal.mul": ["3", "4"]}]}, {"value": "5"}
     )
     logger.info(f"Execution result: {result}")
+
+    result = client.action.execute_logic(
+        {"gsun": ["10"]}
+    )
+    logger.info(f"Execution result: {result}")
 except Exception as e:
     logger.error(f"Error occurred: {e}")
