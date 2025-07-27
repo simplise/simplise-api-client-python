@@ -7,7 +7,10 @@ authors = [
     { name = "Yuki Kimoto", email = "developer@simplise.jp" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "pydantic>=2.11.7",
+    "requests>=2.32.4",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -78,7 +81,14 @@ venv = ".venv"
 
 [dependency-groups]
 dev = [
+    "aiohttp>=3.12.14",
+    "loguru>=0.7.3",
+    "pydantic-settings>=2.10.1",
     "pyright>=1.1.403",
     "pytest>=8.4.1",
+    "pytest-asyncio>=1.1.0",
+    "pytest-cov>=6.2.1",
+    "pytest-httpx>=0.35.0",
+    "python-dotenv>=1.1.1",
     "ruff>=0.12.5",
 ]
