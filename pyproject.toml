@@ -1,6 +1,6 @@
 [project]
 name = "simplise-api-client-python"
-version = "0.0.3a1"
+version = "0.0.1a2"
 description = "Simplise API Client for Python"
 readme = "README.md"
 authors = [
