@@ -8,7 +8,12 @@ from typing import Any
 import requests
 
 from simplise_api_client_python.action import Operation
-from simplise_api_client_python.type import JsonLogicRule
+from simplise_api_client_python.type import (
+    JsonLogicRule,
+    JsonLogicRuleSafetyStr,
+    JsonLogicValue,
+    JsonLogicValueSafetyStr,
+)
 
 
 class ActionLogicAPI:
@@ -33,9 +38,24 @@ class ActionLogicAPI:
         url = f"{self.client.base_url}/action-logic"
         headers = {"Content-Type": "application/json", "Authorization": f"Bearer {self.client.api_key}"}
 
-        response = requests.post(url, json=rule, headers=headers, timeout=30)
+        safety_rule = self._stringify_rule_values(rule)
+        response = requests.post(url, json=safety_rule, headers=headers, timeout=30)
         response.raise_for_status()
         return response.json()
+
+    def _stringify_rule_values(self, rule: JsonLogicRule) -> JsonLogicRuleSafetyStr:
+        """Convert all values in the rule to strings."""
+
+        def stringify_value(value: JsonLogicValue) -> JsonLogicValueSafetyStr:
+            if isinstance(value, (int, float, bool)):
+                return str(value)
+            if isinstance(value, list):
+                return [str(v) for v in value]
+            if isinstance(value, dict):
+                return {k: str(v) for k, v in value.items()}
+            return value
+
+        return {k: stringify_value(v) for k, v in rule.items()}
 
 
 class Action:
