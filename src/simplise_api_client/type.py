@@ -12,9 +12,3 @@ type JsonLogicValue = JsonLogicValueSafetyStr | int | float | bool | dict[str, A
 type JsonLogicRuleSafetyStr = dict[str, JsonLogicValueSafetyStr]
 type JsonLogicRule = dict[str, JsonLogicValue]
 
-
-class ExecuteLogic(TypedDict):
-    """TypedDict for execute_logic method parameters."""
-
-    rule: JsonLogicRule
-    data: dict[str, Any] | None
