@@ -23,7 +23,7 @@ except Exception as e:
 # JsonLogic Rule実行
 try:
     result = client.action.execute_logic(
-        {"decimal.add": ["10", {"action_input": ["value"]}, {"decimal.mul": ["3", "4"]}]}, {"value": "5"}
+        {"decimal.add": ["10", {"input": ["value"]}, {"decimal.mul": ["3", "4"]}]}, {"value": "5"}
     )
     logger.info(f"Execution result: {result}")
 
