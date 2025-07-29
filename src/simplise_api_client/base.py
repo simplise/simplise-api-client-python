@@ -90,7 +90,33 @@ class Action:
         Returns:
             Dict[str, Any]: The result of the rule execution
         """
+        rule = self._replace_action_input(rule, data)
         return self._send_request(rule, data)
+
+    # ruleの中に"{"action_input": "[<input_key>]"}" がある場合は、
+    # dataの中の{"<input_key>": "<input_value>"}から値を取得して
+    # {"input": "<input_value>"}に置き換える
+    def _replace_action_input(self, rule: JsonLogicRule, data: dict[str, Any] | None) -> JsonLogicRule:
+        """Replace action_input references in the rule with actual data values."""
+        check_name = "action_input"
+        for key, value in list(rule.items()):
+            if isinstance(value, list) and check_name in key:
+                input_keys = [value.replace(check_name, "").strip() for value in value if isinstance(value, str)]
+                if data is None:
+                    err_msg = "Data must be provided to replace action_input"
+                    raise ValueError(err_msg)
+                for input_key in input_keys:
+                    if input_key in data:
+                        rule["input"] = rule.pop(check_name)
+                        rule["input"] = data[input_key]
+                    else:
+                        err_msg = f"Input key '{input_key}' not found in data"
+                        raise ValueError(err_msg)
+            elif isinstance(value, list):
+                rule[key] = [
+                    self._replace_action_input(item, data) if isinstance(item, dict) else item for item in value
+                ]
+        return rule
 
     def _send_request(self, rule: JsonLogicRule, data: dict[str, Any] | None = None) -> dict[str, Any]:
         """Send request to Simplise API."""
