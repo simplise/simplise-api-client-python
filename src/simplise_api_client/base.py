@@ -77,22 +77,18 @@ class Action:
         """Initialize Action with a reference to the client."""
         self.client = client
 
-    def execute(self, *operations: Operation) -> bool:
-        """Execute library model operations.
+    def execute(self, operation: Operation, data: dict[str, str]) -> dict[str, Any]:
+        """Execute library model operation.
 
         Args:
-            *operations: Variable number of operation objects
+            operation (Operation): The operation object to execute
+            data (dict[str, str]): The input data for the operation
 
         Returns:
-            bool: True if operations executed successfully, False otherwise
+            dict[str, Any]: The result of the operation execution
         """
         # Convert operations to JSON Logic format
-        rules = [op.to_dict() for op in operations]
-        for rule in rules:
-            if not isinstance(rule, dict):
-                return False
-            self._send_request(rule)
-        return True
+        return self._send_request(operation.to_dict(), data)
 
     def execute_logic(self, rule: JsonLogicRule, data: dict[str, Any] | None = None) -> dict[str, Any]:
         """Execute JsonLogic rule.

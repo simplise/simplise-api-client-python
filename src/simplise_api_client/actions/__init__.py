@@ -9,7 +9,7 @@ from simplise_api_client.actions.decimal import (
     action_decimal_mul,
     action_decimal_sub,
 )
-from simplise_api_client.actions.utils import Operation, action_input
+from simplise_api_client.actions.utils import Operation, action_input, action_obj
 
 __all__ = [
     "Operation",
@@ -18,4 +18,5 @@ __all__ = [
     "action_decimal_mul",
     "action_decimal_sub",
     "action_input",
+    "action_obj",
 ]
