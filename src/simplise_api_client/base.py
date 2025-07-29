@@ -49,9 +49,9 @@ class ActionLogicAPI:
             safety_data = self._stringify_rule_values(input_data)
             files["input"] = (None, json.dumps(safety_data), "application/json")
 
-        response = requests.post(url, files=files, headers=headers, timeout=30)
+        response = requests.post(url, files=files, headers=headers, timeout=self.client.timeout)
         response.raise_for_status()
-        return response.json()
+        return response.text
 
     def _stringify_rule_values(self, rule: JsonLogicRule) -> JsonLogicRuleSafetyStr:
         """Convert all values in the rule to strings."""
@@ -77,7 +77,7 @@ class Action:
         """Initialize Action with a reference to the client."""
         self.client = client
 
-    def execute(self, operation: Operation, data: dict[str, str]) -> dict[str, Any]:
+    def execute(self, operation: Operation, data: dict[str, str]) -> str:
         """Execute library model operation.
 
         Args:
@@ -90,7 +90,7 @@ class Action:
         # Convert operations to JSON Logic format
         return self._send_request(operation.to_dict(), data)
 
-    def execute_logic(self, rule: JsonLogicRule, data: dict[str, Any] | None = None) -> dict[str, Any]:
+    def execute_logic(self, rule: JsonLogicRule, data: dict[str, Any] | None = None) -> str:
         """Execute JsonLogic rule.
 
         Args:
@@ -133,15 +133,16 @@ class Action:
                 rule[key] = processed_items
         return rule
 
-    def _send_request(self, rule: JsonLogicRule, data: dict[str, Any] | None = None) -> dict[str, Any]:
+    def _send_request(self, rule: JsonLogicRule, data: dict[str, Any] | None = None) -> str:
         """Send request to Simplise API."""
         # Use the new ActionLogicAPI for actual requests
         try:
             result = self.client.action_logic.post(rule, data)
         except Exception as e:
             # Fallback to placeholder for error handling
-            return {"result": "error", "rule": rule, "data": data, "error": str(e)}
-        return {"result": result, "rule": rule, "data": data}
+            err_msg = f"Error sending request: {e}"
+            raise RuntimeError(err_msg) from e
+        return result
 
 
 class SimpliseClient:
@@ -151,13 +152,16 @@ class SimpliseClient:
     authentication, making requests, and handling responses.
     """
 
-    def __init__(self, api_key: str) -> None:
+    def __init__(self, api_key: str, base_url: str = "https://api.usebootstrap.org", timeout: float = 30.0) -> None:
         """Initializes the SimpliseClient with the provided API key.
 
         Args:
             api_key (str): The API key for authenticating with the Simplise API.
+            base_url (str): The base URL for the Simplise API.
+            timeout (float): The timeout for API requests in seconds.
         """
         self.api_key = api_key
-        self.base_url = "https://api.usebootstrap.org"
+        self.base_url = base_url
+        self.timeout = timeout
         self.action = Action(self)
         self.action_logic = ActionLogicAPI(self)

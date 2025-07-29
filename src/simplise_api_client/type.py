@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, TypedDict
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from simplise_api_client.actions import Operation
