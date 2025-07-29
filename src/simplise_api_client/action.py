@@ -3,7 +3,7 @@
 This module provides operation builders for the Simplise API.
 """
 
-from simplise_api_client_python.type import JsonLogicRule, OperationArg
+from simplise_api_client.type import JsonLogicRule, OperationArg
 
 
 class Operation:

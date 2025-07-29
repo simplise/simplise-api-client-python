@@ -8,7 +8,7 @@ Simplise API は、現代のアプリケーション開発に必要な包括的�
 
 ## 使用例
 ```python
-from simplise_api_client_python import SimpliseClient, action
+from simplise_api_client import SimpliseClient, action
 
 client = SimpliseClient(api_key="your-api-key")
 

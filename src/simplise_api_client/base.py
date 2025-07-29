@@ -7,8 +7,8 @@ from typing import Any
 
 import requests
 
-from simplise_api_client_python.action import Operation
-from simplise_api_client_python.type import (
+from simplise_api_client.action import Operation
+from simplise_api_client.type import (
     JsonLogicRule,
     JsonLogicRuleSafetyStr,
     JsonLogicValue,

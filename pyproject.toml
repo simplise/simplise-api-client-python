@@ -1,10 +1,10 @@
 [project]
-name = "simplise-api-client-python"
-version = "0.0.1a2"
+name = "simplise-api-client"
+version = "0.0.0a1"
 description = "Simplise API Client for Python"
 readme = "README.md"
 authors = [
-    { name = "Yuki Kimoto", email = "developer@simplise.jp" }
+    { name = "Simplise", email = "developer@simplise.jp" }
 ]
 requires-python = ">=3.12"
 dependencies = [
