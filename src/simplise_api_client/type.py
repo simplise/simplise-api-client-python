@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Any, TypedDict
 
 if TYPE_CHECKING:
-    from simplise_api_client.action import Operation
+    from simplise_api_client.actions import Operation
 
 # Operation types
 type OperationArg = Operation | str | int

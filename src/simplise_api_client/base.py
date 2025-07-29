@@ -7,7 +7,7 @@ from typing import Any
 
 import requests
 
-from simplise_api_client.action import Operation
+from simplise_api_client.actions import Operation
 from simplise_api_client.type import (
     JsonLogicRule,
     JsonLogicRuleSafetyStr,
