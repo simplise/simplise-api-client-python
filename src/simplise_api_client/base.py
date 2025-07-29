@@ -4,7 +4,7 @@ This module provides a client for interacting with the Simplise API.
 """
 
 import json
-from typing import Any
+from typing import Any, cast
 
 import requests
 
@@ -56,14 +56,6 @@ class ActionLogicAPI:
     def _stringify_rule_values(self, rule: JsonLogicRule) -> JsonLogicRuleSafetyStr:
         """Convert all values in the rule to strings."""
 
-        # def stringify_value(value: JsonLogicValue) -> Any:
-        #     if isinstance(value, (int, float, bool)):
-        #         return str(value)
-        #     if isinstance(value, list):
-        #         return [stringify_value(v) for v in value]  # 再帰的に処理
-        #     if isinstance(value, dict):
-        #         return {k: stringify_value(v) for k, v in value.items()}  # 再帰的に処理
-        #     return value
         def stringify_value(
             value: JsonLogicValue,
         ) -> JsonLogicValueSafetyStr:
@@ -123,7 +115,7 @@ class Action:
         check_name = "action_input"
         for key, value in list(rule.items()):
             if isinstance(value, list) and check_name in key:
-                input_keys = [value.replace(check_name, "").strip() for value in value if isinstance(value, str)]
+                input_keys = [v.replace(check_name, "").strip() for v in value if isinstance(v, str)]
                 if data is None:
                     err_msg = "Data must be provided to replace action_input"
                     raise ValueError(err_msg)
@@ -135,9 +127,14 @@ class Action:
                         err_msg = f"Input key '{input_key}' not found in data"
                         raise ValueError(err_msg)
             elif isinstance(value, list):
-                rule[key] = [
-                    self._replace_action_input(item, data) if isinstance(item, dict) else item for item in value
-                ]
+                processed_items = []
+                for item in value:
+                    if isinstance(item, dict) and all(isinstance(k, str) for k in item):
+                        # item を JsonLogicRule として再帰処理
+                        processed_items.append(self._replace_action_input(cast("JsonLogicRule", item), data))
+                    else:
+                        processed_items.append(item)
+                rule[key] = processed_items
         return rule
 
     def _send_request(self, rule: JsonLogicRule, data: dict[str, Any] | None = None) -> dict[str, Any]:

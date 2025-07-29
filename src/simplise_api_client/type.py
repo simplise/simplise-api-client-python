@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 type OperationArg = Operation | str | int
 
 # JsonLogic rule types
-type JsonLogicValueSafetyStr = str | dict[str, str] | list[str]
+type JsonLogicValueSafetyStr = str | dict[str, "JsonLogicValueSafetyStr"] | list["JsonLogicValueSafetyStr"]
 type JsonLogicValue = JsonLogicValueSafetyStr | int | float | bool | dict[str, Any] | list[Any]
 type JsonLogicRuleSafetyStr = dict[str, JsonLogicValueSafetyStr]
 type JsonLogicRule = dict[str, JsonLogicValue]
