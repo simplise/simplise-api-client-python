@@ -697,8 +697,8 @@ wheels = [
 ]
 
 [[package]]
-name = "simplise-api-client-python"
-version = "0.0.1a2"
+name = "simplise-api-client"
+version = "0.0.0a1"
 source = { editable = "." }
 dependencies = [
     { name = "pydantic" },
