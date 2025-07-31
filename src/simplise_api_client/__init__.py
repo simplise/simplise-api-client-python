@@ -4,6 +4,8 @@ This module provides a client for interacting with the Simplise API.
 """
 
 from simplise_api_client.actions import (
+    action_and,
+    action_bool,
     action_decimal_add,
     action_decimal_div,
     action_decimal_mul,
@@ -29,6 +31,8 @@ __all__ = [
     "JsonLogicExecuteRequest",
     "JsonLogicExecuteResponse",
     "SimpliseClient",
+    "action_and",
+    "action_bool",
     "action_decimal_add",
     "action_decimal_div",
     "action_decimal_mul",

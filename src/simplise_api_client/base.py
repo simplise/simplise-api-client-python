@@ -105,12 +105,12 @@ class Action:
         """Initialize Action with a reference to the client."""
         self.client = client
 
-    def execute(self, operation: Operation, data: dict[str, str]) -> str:
+    def execute(self, operation: Operation, data: dict[str, str] | None = None) -> str:
         """Execute library model operation.
 
         Args:
             operation (Operation): The operation object to execute
-            data (dict[str, str]): The input data for the operation
+            data (dict[str, str] | None): The input data for the operation
 
         Returns:
             str: The result of the operation execution

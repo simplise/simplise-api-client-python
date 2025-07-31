@@ -46,6 +46,7 @@ ignore = [
     "DTZ005",
     "BLE001",
     "FIX002",
+    "G004",
 ]
 unfixable = [
     "F401",

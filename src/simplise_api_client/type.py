@@ -4,7 +4,7 @@ if TYPE_CHECKING:
     from simplise_api_client.actions import Operation
 
 # Operation types
-type OperationArg = Operation | str | int
+type OperationArg = Operation | str | int | bool
 
 # JsonLogic rule types
 type JsonLogicValueSafetyStr = str | dict[str, "JsonLogicValueSafetyStr"] | list["JsonLogicValueSafetyStr"]

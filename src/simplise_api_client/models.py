@@ -42,7 +42,7 @@ class ActionExecuteRequest(BaseModel):
     """
 
     operation_data: JsonLogicRule = Field(..., description="Operation data in JsonLogic format")
-    input_data: dict[str, str] = Field(..., description="Input data for the operation")
+    input_data: dict[str, str] | None = Field(..., description="Input data for the operation")
 
     class Config:
         """Pydantic configuration."""
