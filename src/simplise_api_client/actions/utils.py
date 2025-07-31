@@ -16,27 +16,3 @@ class Operation:
         args = [arg.to_dict() if isinstance(arg, Operation) else arg for arg in self.args]
         return {self.operator: list(args)}
 
-
-def action_input(key: str) -> Operation:
-    """Create an input reference.
-
-    Args:
-        key (str): The input key to reference
-
-    Returns:
-        Operation: An operation that references the input key
-    """
-    return Operation("input", key)
-
-
-def action_obj(key: str, value: str) -> dict[str, str]:
-    """Create an object with a key-value pair.
-
-    Args:
-        key (str): The key for the object
-        value (str): The value for the object
-
-    Returns:
-        Operation: An operation that creates an object with the specified key and value
-    """
-    return {key: value}
