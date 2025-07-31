@@ -28,6 +28,7 @@ def action_input(key: str) -> Operation:
     """
     return Operation("input", key)
 
+
 def action_obj(key: str, value: str) -> dict[str, str]:
     """Create an object with a key-value pair.
 
@@ -38,4 +39,4 @@ def action_obj(key: str, value: str) -> dict[str, str]:
     Returns:
         Operation: An operation that creates an object with the specified key and value
     """
-    return{key: value}
+    return {key: value}

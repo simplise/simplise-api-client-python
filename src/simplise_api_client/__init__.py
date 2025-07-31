@@ -12,8 +12,22 @@ from simplise_api_client.actions import (
     action_obj,
 )
 from simplise_api_client.base import SimpliseClient
+from simplise_api_client.models import (
+    ActionExecuteRequest,
+    ActionExecuteResponse,
+    ActionLogicRequest,
+    ActionLogicResponse,
+    JsonLogicExecuteRequest,
+    JsonLogicExecuteResponse,
+)
 
 __all__ = [
+    "ActionExecuteRequest",
+    "ActionExecuteResponse",
+    "ActionLogicRequest",
+    "ActionLogicResponse",
+    "JsonLogicExecuteRequest",
+    "JsonLogicExecuteResponse",
     "SimpliseClient",
     "action_decimal_add",
     "action_decimal_div",

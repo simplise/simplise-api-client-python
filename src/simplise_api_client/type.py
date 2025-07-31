@@ -11,4 +11,3 @@ type JsonLogicValueSafetyStr = str | dict[str, "JsonLogicValueSafetyStr"] | list
 type JsonLogicValue = JsonLogicValueSafetyStr | int | float | bool | dict[str, Any] | list[Any]
 type JsonLogicRuleSafetyStr = dict[str, JsonLogicValueSafetyStr]
 type JsonLogicRule = dict[str, JsonLogicValue]
-

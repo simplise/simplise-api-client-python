@@ -4,17 +4,29 @@ This module provides a client for interacting with the Simplise API.
 """
 
 import json
+import logging
 from typing import Any, cast
 
 import requests
+from pydantic import ValidationError
 
 from simplise_api_client.actions import Operation
+from simplise_api_client.models import (
+    ActionExecuteRequest,
+    ActionExecuteResponse,
+    ActionLogicRequest,
+    ActionLogicResponse,
+    JsonLogicExecuteRequest,
+    JsonLogicExecuteResponse,
+)
 from simplise_api_client.type import (
     JsonLogicRule,
     JsonLogicRuleSafetyStr,
     JsonLogicValue,
     JsonLogicValueSafetyStr,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class ActionLogicAPI:
@@ -36,22 +48,38 @@ class ActionLogicAPI:
 
         Raises:
             requests.HTTPError: If the API request fails
+            ValidationError: If the request data validation fails
         """
+        # [AI GENERATED] リクエストデータをPydanticモデルで検証
+        try:
+            request_model = ActionLogicRequest(rule=rule, input_data=input_data)
+        except ValidationError:
+            logger.exception("Request validation failed")
+            raise
+
         url = f"{self.client.base_url}/action-logic"
         headers = {"Authorization": f"Bearer {self.client.api_key}"}
 
-        safety_rule = self._stringify_rule_values(rule)
+        safety_rule = self._stringify_rule_values(request_model.rule)
 
         # Prepare multipart form data
         files = {"action": (None, json.dumps(safety_rule), "application/json")}
 
-        if input_data:
-            safety_data = self._stringify_rule_values(input_data)
+        if request_model.input_data:
+            safety_data = self._stringify_rule_values(request_model.input_data)
             files["input"] = (None, json.dumps(safety_data), "application/json")
 
         response = requests.post(url, files=files, headers=headers, timeout=self.client.timeout)
         response.raise_for_status()
-        return response.text
+
+        # [AI GENERATED] レスポンスデータをPydanticモデルで検証
+        try:
+            response_model = ActionLogicResponse(result=response.text)
+        except ValidationError:
+            logger.exception("Response validation failed")
+            raise
+        else:
+            return response_model.result
 
     def _stringify_rule_values(self, rule: JsonLogicRule) -> JsonLogicRuleSafetyStr:
         """Convert all values in the rule to strings."""
@@ -85,10 +113,29 @@ class Action:
             data (dict[str, str]): The input data for the operation
 
         Returns:
-            dict[str, Any]: The result of the operation execution
+            str: The result of the operation execution
+
+        Raises:
+            ValidationError: If the request data validation fails
         """
+        # [AI GENERATED] リクエストデータをPydanticモデルで検証
+        try:
+            request_model = ActionExecuteRequest(operation_data=operation.to_dict(), input_data=data)
+        except ValidationError:
+            logger.exception("Request validation failed for execute")
+            raise
+
         # Convert operations to JSON Logic format
-        return self._send_request(operation.to_dict(), data)
+        result = self._send_request(request_model.operation_data, request_model.input_data)
+
+        # [AI GENERATED] レスポンスデータをPydanticモデルで検証
+        try:
+            response_model = ActionExecuteResponse(result=result)
+        except ValidationError:
+            logger.exception("Response validation failed for execute")
+            raise
+        else:
+            return response_model.result
 
     def execute_logic(self, rule: JsonLogicRule, data: dict[str, Any] | None = None) -> str:
         """Execute JsonLogic rule.
@@ -98,10 +145,29 @@ class Action:
             data (dict, optional): Input data for the rule
 
         Returns:
-            Dict[str, Any]: The result of the rule execution
+            str: The result of the rule execution
+
+        Raises:
+            ValidationError: If the request data validation fails
         """
+        # [AI GENERATED] リクエストデータをPydanticモデルで検証
+        try:
+            request_model = JsonLogicExecuteRequest(rule=rule, data=data)
+        except ValidationError:
+            logger.exception("Request validation failed for execute_logic")
+            raise
+
         # rule = self._replace_action_input(rule, data)
-        return self._send_request(rule, data)
+        result = self._send_request(request_model.rule, request_model.data)
+
+        # [AI GENERATED] レスポンスデータをPydanticモデルで検証
+        try:
+            response_model = JsonLogicExecuteResponse(result=result)
+        except ValidationError:
+            logger.exception("Response validation failed for execute_logic")
+            raise
+        else:
+            return response_model.result
 
     # ruleの中に"{"action_input": "[<input_key>]"}" がある場合は、
     # dataの中の{"<input_key>": "<input_value>"}から値を取得して
