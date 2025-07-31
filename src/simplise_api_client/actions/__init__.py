@@ -3,7 +3,7 @@
 This module provides operation builders for the Simplise API.
 """
 
-from simplise_api_client.actions.decimal import (
+from simplise_api_client.actions.numeric.decimal import (
     action_decimal_add,
     action_decimal_div,
     action_decimal_mul,
