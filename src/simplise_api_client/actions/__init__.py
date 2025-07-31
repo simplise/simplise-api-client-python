@@ -2,6 +2,7 @@
 
 This module provides operation builders for the Simplise API.
 """
+# 操作ビルダーを提供するSimplise APIクライアントのアクション操作モジュール。
 
 from simplise_api_client.actions.numeric.decimal import (
     action_decimal_add,

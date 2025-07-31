@@ -49,6 +49,25 @@ Python のコードを生成する場合は必ずこのガイドラインに従�
         AIが生成したコメントの先頭には [AI GENERATED] を付けること（ただしDocstring内は除く）。
         複雑なロジックには処理内容を説明するコメントを記述すること。
 
+        例: add.py
+        ```python
+        """This module provides an addition operation."""
+        # [AI GENERATED] This function adds two integers.
+        def add(a: int, b: int) -> int:
+            """Adds two integers and returns the result.
+
+            Args:
+                a (int): The first integer.
+                b (int): The second integer.
+            
+            Returns:
+                int: The sum of a and b.
+            """
+            # [AI GENERATED] Perform addition
+            return a + b
+        ```
+
+
     エラーハンドリング:
 
         try...except ブロックでは具体的な例外を捕捉し、汎用的な except Exception: は避けること。
