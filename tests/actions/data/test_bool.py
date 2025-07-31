@@ -166,3 +166,43 @@ class TestActionBool:
         # [AI GENERATED] ネスト構造が正しく表現されることを検証
         expected = {"bool": [{"input": ["dynamic_value"]}]}
         assert result_dict == expected, f"Expected {expected}, got {result_dict}"
+
+
+class TestActionBoolExample:
+    """action_boolを実際に使用する例のテスト。"""
+
+    def test_action_bool_example_with_zero_value(self) -> None:
+        """ゼロ値でのaction_boolの実例をテスト。
+
+        action_bool(0)の組み合わせが実際のAPIで正しく動作することを検証します。
+        ゼロは偽値なので"false"が返されることを期待します。
+        """
+        # [AI GENERATED] ゼロ値でbool操作を作成
+        bool_operation = action_bool(0)
+
+        # [AI GENERATED] 辞書形式に変換して内容を確認
+        operation_dict = bool_operation.to_dict()
+        expected_operation = {"bool": [0]}
+        assert operation_dict == expected_operation, f"Expected {expected_operation}, got {operation_dict}"
+
+    def test_action_bool_example_with_string_value(self) -> None:
+        """文字列値でのaction_boolの実例をテスト。
+
+        action_bool("hello")の組み合わせが正しく辞書に変換されることを検証します。
+        """
+        # [AI GENERATED] 文字列でbool操作を作成
+        bool_operation = action_bool("hello")
+
+        # [AI GENERATED] 辞書形式に変換して内容を確認
+        operation_dict = bool_operation.to_dict()
+        expected_operation = {"bool": ["hello"]}
+        assert operation_dict == expected_operation, f"Expected {expected_operation}, got {operation_dict}"
+
+
+# [AI GENERATED] 実際のAPI統合テストは別ファイルに移動されました
+# モックテスト: tests/actions/data/test_bool_integration_mock.py
+# 実際のAPIテスト: tests/actions/data/test_bool_integration_real.py
+#
+# 実際のAPIテストを実行するには:
+# 1. 環境変数 SIMPLISE_API_KEY を設定
+# 2. pytest tests/actions/data/test_bool_integration_real.py -v を実行

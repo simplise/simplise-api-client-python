@@ -1,3 +1,4 @@
+import logging
 import os
 
 from dotenv import load_dotenv
@@ -12,6 +13,8 @@ from simplise_api_client import (
     action_input,
     action_obj,
 )
+
+logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
 client = SimpliseClient(api_key=os.getenv("SIMPLISE_TEST_BEARER_TOKEN", "default_token"))
