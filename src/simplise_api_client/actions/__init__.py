@@ -22,22 +22,13 @@ from simplise_api_client.actions.data import (
     action_obj,
 )
 from simplise_api_client.actions.logic import action_and
-from simplise_api_client.actions.numeric import (
-    action_decimal_add,
-    action_decimal_div,
-    action_decimal_mul,
-    action_decimal_sub,
-)
-from simplise_api_client.actions.utils import Operation
+from simplise_api_client.actions.utils import Action, Operation
 
 __all__ = [
+    "Action",
     "Operation",
     "action_and",
     "action_bool",
-    "action_decimal_add",
-    "action_decimal_div",
-    "action_decimal_mul",
-    "action_decimal_sub",
     "action_input",
     "action_num_add",
     "action_num_between",

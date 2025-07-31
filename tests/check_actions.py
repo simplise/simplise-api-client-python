@@ -5,11 +5,10 @@ from dotenv import load_dotenv
 from loguru import logger
 
 from simplise_api_client import (
+    Action,
     SimpliseClient,
     action_and,
     action_bool,
-    action_decimal_add,
-    action_decimal_mul,
     action_input,
     action_num_add,
     action_num_max,
@@ -30,7 +29,7 @@ def check_decimal_operations() -> None:
     logger.info(
         "ライブラリを使用した実行 - decimal.add: {}",
         client.action.execute(
-            action_decimal_add(10, action_input("value"), action_decimal_mul(3, 4)), action_obj("value", "5")
+            Action.decimal.add(10, action_input("value"), Action.decimal.mul(3, 4)), action_obj("value", "5")
         ),
     )
     logger.info(
@@ -94,9 +93,9 @@ def check_data_num_operations() -> None:
 
 if __name__ == "__main__":
     try:
-        # check_decimal_operations()
+        check_decimal_operations()
         # check_bool_operations()
         # check_logic_operations()
-        check_data_num_operations()
+        # check_data_num_operations()
     except Exception:
         logger.exception("Error occurred")

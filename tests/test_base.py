@@ -9,7 +9,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from simplise_api_client.base import Action, ActionLogicAPI, SimpliseClient
+from simplise_api_client.base import ActionLogicAPI, ActionOperation, SimpliseClient
 
 if TYPE_CHECKING:
     from simplise_api_client.type import JsonLogicRule
@@ -42,7 +42,9 @@ class TestSimpliseClient:
         assert client.timeout == timeout, f"Expected timeout {timeout}, got {client.timeout}"
 
         # [AI GENERATED] actionとaction_logicインスタンスが適切に初期化されることを検証
-        assert isinstance(client.action, Action), f"Expected Action instance, got {type(client.action)}"
+        assert isinstance(client.action, ActionOperation), (
+            f"Expected ActionOperation instance, got {type(client.action)}"
+        )
         assert isinstance(client.action_logic, ActionLogicAPI), (
             f"Expected ActionLogicAPI instance, got {type(client.action_logic)}"
         )

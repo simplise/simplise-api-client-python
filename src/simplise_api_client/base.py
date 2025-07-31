@@ -100,7 +100,7 @@ class ActionLogicAPI:
         return rule
 
 
-class Action:
+class ActionOperation:
     def __init__(self, client: "SimpliseClient") -> None:
         """Initialize Action with a reference to the client."""
         self.client = client
@@ -229,5 +229,5 @@ class SimpliseClient:
         self.api_key = api_key
         self.base_url = base_url
         self.timeout = timeout
-        self.action = Action(self)
+        self.action = ActionOperation(self)
         self.action_logic = ActionLogicAPI(self)
