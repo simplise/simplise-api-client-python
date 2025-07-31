@@ -10,7 +10,7 @@ Documents: https://api.usebootstrap.org/spec/doc/action/data/input.md
 
 import logging
 
-from simplise_api_client.actions import Operation
+from simplise_api_client.actions.utils import Operation
 
 logger = logging.getLogger(__name__)
 
